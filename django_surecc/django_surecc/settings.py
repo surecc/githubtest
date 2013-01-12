@@ -11,8 +11,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'D:\\My Documents\\My Eclipse\\django_surecc\\db_django_surecc.db',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -78,7 +78,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'kcy83pjc9rwa7su_$qss+m*9615ya1$9!o)_@i@mfy)i5$1^hs'
+SECRET_KEY = 'bln7dts^_5xlph-=2(6e1k*2^b(f+1c2#m66b3qhw9e7ytqh06'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
