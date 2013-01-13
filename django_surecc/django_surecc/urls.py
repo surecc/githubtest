@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 # from django.conf.urls.defaults import *
-from django_surecc.views import hello, current_datetime, hours_ahead
+from django_surecc.views import hello, current_datetime, hours_ahead, current_datetime_t_outer, current_datetime_t_rtr
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -19,4 +19,6 @@ urlpatterns = patterns('',
     (r'^hello/$', hello),
     (r'^time/$', current_datetime),
     (r'^time/plus/(\d{1,2})/$', hours_ahead),
+    (r'^timetmplt/$', current_datetime_t_outer),
+    (r'^timeshortcut/$', current_datetime_t_rtr),
 )
