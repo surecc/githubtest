@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 # from django.conf.urls.defaults import *
 from django_surecc.views import views_01
 from django_surecc.books import views_books 
-
+from django_surecc.contact import views
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -29,4 +29,6 @@ urlpatterns = patterns(
     # Form:search a book
     url(r'^search-form/$', views_books.search_form),
     url(r'^search/$', views_books.search),
+    url(r'^contact/$', views.contact),
+    url(r'^contact/thanks/$', views.thanks),
 )
