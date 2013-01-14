@@ -39,7 +39,21 @@ def current_datetime_t_outer(request):
 def current_datetime_t_rtr(request):
     now = datetime.datetime.now()
     return render_to_response('current_date.html', {'current_date': now})
+
+## Try the Request Form
+# show he request.META
+def display_meta(request):
+    values = request.META.items();
+    values.sort()
+    html = []
+    for k, v in values:
+        html.append('<tr><td>%s</td><td>%s</td></tr>' %(k,v))
+    return HttpResponse('<table>%s</table>' % '\n'.join(html))
     
+def display_meta_t_rtr(request):
+    values = request.META.items();
+    values.sort()
+    return render_to_response('meta.html',{'values_list': values})
     
     
     
