@@ -30,5 +30,4 @@ urlpatterns = patterns(
     url(r'^search-form/$', views_books.search_form),
     url(r'^search/$', views_books.search),
     url(r'^contact/$', views.contact),
-    url(r'^contact/thanks/$', views.thanks),
 )
