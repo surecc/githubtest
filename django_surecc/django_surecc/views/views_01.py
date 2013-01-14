@@ -1,3 +1,8 @@
+'''
+Created on Jan 13, 2013
+
+@author: surecc
+'''
 from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
@@ -54,16 +59,3 @@ def display_meta_t_rtr(request):
     values = request.META.items();
     values.sort()
     return render_to_response('meta.html',{'values_list': values})
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
