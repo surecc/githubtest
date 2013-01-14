@@ -28,4 +28,5 @@ urlpatterns = patterns(
     url(r'^metat', views_01.display_meta_t_rtr),
     # Form:search a book
     url(r'^search-form/$', views_books.search_form),
+    url(r'^search/$', views_books.search),
 )
