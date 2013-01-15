@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     
     # my installed apps
     'django_surecc.books',
+    'django_surecc.taobao',
 )
 
 # A sample logging configuration. The only tangible logging

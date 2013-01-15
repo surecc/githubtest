@@ -3,6 +3,8 @@ from django.conf.urls import patterns, include, url
 from django_surecc.views import views_01
 from django_surecc.books import views_books 
 from django_surecc.contact import views
+from django_surecc.taobao import views_taobao
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -30,4 +32,8 @@ urlpatterns = patterns(
     url(r'^search-form/$', views_books.search_form),
     url(r'^search/$', views_books.search),
     url(r'^contact/$', views.contact),
+    # try to use the BeautifulSoup
+    #url(r'^taobao/$', views_taobao.getsoup),
+    url(r'^soup/$', views_taobao.getsoup),
+    url(r'^soup/result/$', views_taobao.show_soup_result),
 )
