@@ -17,7 +17,7 @@ import re
 
 class build_tpl: 
     def __init__(self,parse_file,build_tpl_name,cp_pic_dir,show_pic_dir,js_path,set_lang=2052): 
-        '''参数说明：解析文件名，模版名称，保存图片路径，图片显示路径，js路径，当前语言（分句使用）''' 
+        #参数说明：解析文件名，模版名称，保存图片路径，图片显示路径，js路径，当前语言（分句使用）
         #取得解析文件目录路径 
         if len(dirname(parse_file))>1: 
             self.cur_dir = dirname(parse_file)+"/"; 
