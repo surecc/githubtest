@@ -1,3 +1,4 @@
+#coding=utf-8
 '''
 Created on Jan 16, 2013
 
@@ -7,15 +8,28 @@ Created on Jan 16, 2013
 from bs4 import BeautifulSoup
 import urllib2
 import os.path
+import sys
 # the model of taobao
-from django_surecc.taobao import *
+from django_surecc.taobao import models
 from django_surecc.tools import saveImg
 
+# grab the content from an URL
+def makeSoup(url):
+    try:
+        request = urllib2.Request(url=url, headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3' })
+        response = urllib2.urlopen(request)
+        HTML_response = response.read().decode('gb2312').encode('utf8')
+        soup = BeautifulSoup(HTML_response)
+    except:
+        print 'soup is a mess'
+    return soup
+
+# save info into the models
+def saveToModels(model_list):
+    return True
+    
 def grab_360buy(url, localfile):
-    request = urllib2.Request(url=url, headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3' })
-    response = urllib2.urlopen(request)
-    HTML_response = response.read()
-    soup = BeautifulSoup(HTML_response)
+    soup = makeSoup(url)
     if soup:
         tag_div = soup.find_all('div', id = 'plist')
         if tag_div:
@@ -49,7 +63,71 @@ def grab_360buy(url, localfile):
                     print 'it is empty of div.... fuck'
             myfile.close()
     return True
-                    
+
+
+def grab_360buy_saveToModel(url, id_cate, id_s, localfile):
+    request = urllib2.Request(url=url, headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3' })
+    response = urllib2.urlopen(request)
+    HTML_response = response.read()
+    soup = BeautifulSoup(HTML_response,from_encoding="gb18030")
+
+    if soup:
+        tag_div = soup.find_all('div', id = 'plist')
+        if tag_div:
+            tag_item_li = tag_div[0].find_all('li')
+            #myfile = open(localfile,'w')
+            i = 0
+            # get the default
+            m_cate = models.Category.objects.get(id=id_cate)
+            m_s = models.Seller.objects.get(id=id_s)
+            print m_cate
+            print type(m_s)
+            for li in tag_item_li:
+                i += 1
+                #get the tag of each div
+                div = li.find_all('div')
+                if div:
+                    print str(i)+'........'
+                    p_img = div[0]
+                    p_name = div[4]
+                    p_price = div[5]
+                    #save img
+                    url_item = p_img.a['href']
+                    url_img = p_img.img['data-lazyload']
+                    path_dir = os.path.join(os.path.dirname(localfile), 'img')
+                    path_img = os.path.join(path_dir , str(i)+'.jpg')
+                    saveImg.saveImg(url_img, path_img)
+                    #save price
+                    url_price = p_price.img['data-lazyload']
+                    path_price = os.path.join(path_dir, str(i)+'_price.jpg')
+                    saveImg.saveImg(url_price, path_price)
+                    #save to model
+                    m_com = models.Commidity(url=url_item, price=0.0, name=str(p_name.a.contents))
+                    m_com.categories = m_cate
+                    m_com.seller = m_s
+                    m_com.save()
+                    print m_com
+                    m_p = models.Picture(dir=path_dir,commidity=m_com.id)
+                    m_p.save()
+                    print m_p
+                    #get info
+                    #myfile.write( str(path_img) + '---')
+                    #myfile.write( str(p_name.a.contents) + '---')
+                    #myfile.write( str(p_price.img['data-lazyload']) + '---')
+                    #myfile.write('\r\n')
+                else:
+                    print 'it is empty of div.... fuck'
+            #myfile.close()
+    return True
+
+
+
+
+
+
+
+
+       
 #grab the urls with user-agent
 def grabHref(url, localfile):
     request = urllib2.Request(url=url, 

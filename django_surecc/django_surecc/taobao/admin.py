@@ -10,11 +10,11 @@ class SellerAdmin(admin.ModelAdmin):
     search_fields = ('name', 'domain')
     
 class PictureAdmin(admin.ModelAdmin):
-    list_display = ('dir', 'var_total', 'commidities')
+    list_display = ('dir', 'var_total', 'commidity')
     
 class CommidityAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'url')
-    search_fields = ('name', 'categories', 'seller')
+    search_fields = ('name', 'category', 'seller')
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Seller, SellerAdmin)

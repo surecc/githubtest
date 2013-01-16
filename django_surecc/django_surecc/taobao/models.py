@@ -30,7 +30,7 @@ class Commidity(models.Model):
     price = models.CharField(max_length=300)
     desc = models.TextField(blank=True)
     categories = models.ManyToManyField(Category)
-    sellers = models.ForeignKey(Seller)
+    seller = models.ForeignKey(Seller)
     
     def __unicode__(self):
         return u'%s:%s' %(self.name, self.price)
@@ -51,7 +51,7 @@ class Picture(models.Model):
     var4 = models.FloatField(blank=True)
     var5 = models.FloatField(blank=True)
     in_time = models.DateTimeField(blank=True)
-    commidities = models.ForeignKey(Commidity)
+    commidity = models.ForeignKey(Commidity)
     
     def __unicode__(self):
         return self.var_total
