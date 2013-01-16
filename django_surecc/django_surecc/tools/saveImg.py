@@ -28,11 +28,10 @@ def saveImgTux():
 
 
 import urllib   
-def saveImg():
-    #实现图片下载   
-    url = r"http://www.iteye.com/images/logo.gif"  
-    path = r"h:\downloads\1.jpg"  
+def saveImg(url, path):
+    #url = r"http://www.iteye.com/images/logo.gif"  
+    #path = r"h:\downloads\1.jpg"  
     data = urllib.urlopen(url).read()   
     f = file(path,"wb")   
-    f.write(data)   
+    f.write(data) 
     f.close() 

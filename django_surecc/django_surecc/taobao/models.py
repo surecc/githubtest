@@ -26,7 +26,8 @@ class Seller(models.Model):
 class Commidity(models.Model):
     name = models.CharField(max_length=200)
     url = models.URLField()
-    price = models.FloatField()
+    #price = models.FloatField()
+    price = models.CharField(max_length=300)
     desc = models.TextField(blank=True)
     categories = models.ManyToManyField(Category)
     sellers = models.ForeignKey(Seller)

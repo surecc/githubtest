@@ -4,7 +4,7 @@ from django.http import  HttpResponse, HttpResponseRedirect
 from django_surecc.taobao.forms import SoupForm
 from django_surecc.taobao.models import *
 # tool functions
-from django_surecc.tools import getRandom, getHtml, getTaobao
+from django_surecc.tools import getRandom, getHtml, getResource
 
 def getsoup_old(request):
     return HttpResponse('i will think about it. i mean get soup.')
@@ -28,7 +28,8 @@ def getsoup(request):
             # os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
             localfile = os.path.join(os.path.join(os.path.dirname(__file__)), '..\\imgdb\\url_' + rd + '.txt')
             #getHtml.grabHref(url, localfile)
-            getTaobao.grabHref(url, localfile)
+            #getResource.grabHref(url, localfile)
+            getResource.grab_360buy(url, localfile)
             #return HttpResponse('i have already write the href into %s': %(localfile))
             #return HttpResponseRedirect('/soup/result/')
             return render_to_response('beautiful_soup.html',{'form': form, 'ans':rd})
