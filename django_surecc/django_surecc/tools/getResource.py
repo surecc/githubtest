@@ -12,9 +12,10 @@ import sys
 # the model of taobao
 from django_surecc.taobao import models
 from django_surecc.tools import saveImg
+from django_surecc.tools import getRandom
 
 # grab the content from an URL
-def makeSoup(url):
+def makeSoup_bad(url):
     try:
         request = urllib2.Request(url=url, headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3' })
         response = urllib2.urlopen(request)
@@ -24,11 +25,17 @@ def makeSoup(url):
         print 'soup is a mess'
     return soup
 
+def makeSoup(url):
+    html = urllib2.urlopen(url).read()
+    soup = BeautifulSoup(html)
+    return soup
+
 # save info into the models
 def saveToModels(model_list):
     return True
     
 def grab_360buy(url, localfile):
+    print localfile
     soup = makeSoup(url)
     if soup:
         tag_div = soup.find_all('div', id = 'plist')
@@ -43,22 +50,29 @@ def grab_360buy(url, localfile):
                 if div:
                     print str(i)+'........'
                     p_img = div[0]
-                    p_name = div[4]
-                    p_price = div[5]
+                    p_name = div[2]
+                    p_price = div[3]
+                    print div[0]
+                    print '-----------------'
+                    print div[2]
+                    print '-----------------'
+                    print div[3]
                     #save img
                     url_img = p_img.img['data-lazyload']
                     path_dir = os.path.join(os.path.dirname(localfile), 'img')
-                    path_img = os.path.join(path_dir , str(i)+'.jpg')
+                    img_name = getRandom.getRandomStr(5)
+                    path_img = os.path.join(path_dir , img_name +'.jpg')
                     saveImg.saveImg(url_img, path_img)
                     #save price
-                    url_price = p_price.img['data-lazyload']
-                    path_price = os.path.join(path_dir, str(i)+'_price.jpg')
-                    saveImg.saveImg(url_price, path_price)
-                    #get info
-                    myfile.write( str(path_img) + '---')
-                    myfile.write( str(p_name.a.contents) + '---')
-                    myfile.write( str(p_price.img['data-lazyload']) + '---')
-                    myfile.write('\r\n')
+                    if p_price and p_name and p_img:
+                        url_price = p_price.img['data-lazyload']
+                        path_price = os.path.join(path_dir, img_name+'_price.jpg')
+                        saveImg.saveImg(url_price, path_price)
+                        #get info
+                        myfile.write( str(path_img) + '---')
+                        myfile.write( str(p_name.a.contents) + '---')
+                        myfile.write( str(p_price.img['data-lazyload']) + '---')
+                        myfile.write('\r\n')
                 else:
                     print 'it is empty of div.... fuck'
             myfile.close()
@@ -82,6 +96,7 @@ def grab_360buy_saveToModel(url, id_cate, id_s, localfile):
             m_s = models.Seller.objects.get(id=id_s)
             print m_cate
             print type(m_s)
+            myfile = open(localfile,'w')
             for li in tag_item_li:
                 i += 1
                 #get the tag of each div
@@ -111,13 +126,13 @@ def grab_360buy_saveToModel(url, id_cate, id_s, localfile):
                     m_p.save()
                     print m_p
                     #get info
-                    #myfile.write( str(path_img) + '---')
-                    #myfile.write( str(p_name.a.contents) + '---')
-                    #myfile.write( str(p_price.img['data-lazyload']) + '---')
-                    #myfile.write('\r\n')
+                    myfile.write( str(path_img) + '---')
+                    myfile.write( str(p_name.a.contents) + '---')
+                    myfile.write( str(p_price.img['data-lazyload']) + '---')
+                    myfile.write('\r\n')
                 else:
                     print 'it is empty of div.... fuck'
-            #myfile.close()
+            myfile.close()
     return True
 
 

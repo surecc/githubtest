@@ -22,6 +22,7 @@ def getsoup(request):
             clean_data = form.cleaned_data
             # as below, will grab the data of the url
             url = clean_data['url']
+            website = clean_data['website']
             # store the url into a file named try.txt
             #rd = getRandomStr(10)
             #rd = getRandom.getRandomStr(10)
@@ -33,18 +34,21 @@ def getsoup(request):
             #getResource.grabHref(url, localfile)
             #getResource.grab_360buy(url, localfile)
             #getResource.grab_360buy_saveToModel(url, 1, 1, localfile)
-            data = taobao_lib.get_json(url)
-            json_data = json.loads(data)
-            json.loads(data, None)
-            json_item_list = json_data['itemList']
-            for item in json_item_list:
-                price = item['currentPrice']
-                name = item['fullTitle']
-                url = item['storeLink']
-                img_url = item['image']
-                #save img
-                saveImg.saveImg(img_url, path_img)
-                
+            if website == 'taobao':
+                getResource.grabHref(url, localfile)
+                data = taobao_lib.get_json(url)
+                json_data = json.loads(data)
+                json.loads(data, None)
+                json_item_list = json_data['itemList']
+                for item in json_item_list:
+                    price = item['currentPrice']
+                    name = item['fullTitle']
+                    url = item['storeLink']
+                    img_url = item['image']
+                    #save img
+                    saveImg.saveImg(img_url, path_img)
+            elif website == '360buy':
+                getResource.grab_360buy(url, localfile)
                 #print name + price + url + img_url
             return render_to_response('beautiful_soup.html',{'form': form, 'ans':rd})
     else:
